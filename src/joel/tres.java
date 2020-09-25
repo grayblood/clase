@@ -7,10 +7,10 @@ public class tres {
 
 	public static void main(String[] args) {
 		lector = new Scanner(System.in);
-		int num1 = lector.nextInt();
-		int num2 = num1 * 3 ;
+		double num1 = lector.nextDouble();
+		double num2 = lector.nextDouble();
 
 
-        System.out.println(num2);
+        System.out.println(num1 * num2 / 2);
 	}
 }
