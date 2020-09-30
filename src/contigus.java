@@ -6,7 +6,10 @@ public class contigus {
 		lector = new Scanner(System.in);
 		int a = lector.nextInt() ;
 		int b = lector.nextInt() ;
-		if () {
+
+		
+		
+		if ( a == b + 1 || a == b - 1) {
 			System.out.println("SI");
 		}
 		else {
