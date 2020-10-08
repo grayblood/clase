@@ -8,9 +8,14 @@ public class traspas {
 	public static void main(String[] args) {
 		lector = new Scanner(System.in);
 		int any = lector.nextInt() ;
-		int a = 4;
-		int b = 100;
-		int c = 400;
+		
+		if ((any % 4 == 0)  && ((any % 100 != 0) || (any % 400 == 0))){
+			System.out.println("SI");
+		}
+		else {
+			System.out.println("NO");
+		}
 	}
 
 }
+

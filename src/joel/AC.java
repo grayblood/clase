@@ -6,18 +6,17 @@ public class AC {
 		public static void main(String[] args) {
 			lector = new Scanner(System.in);
 			int clase= lector.nextInt();
-
-			
-			for (int o = 0; o < clase; o++) {
+			int t = 0;
+			int o = 0;
+			for (o = 0; o < clase; o++) {
 				
 				int a = lector.nextInt();
-				if (a == 0 || a == 180 || a >= 360) {
-					System.out.println("OK");
+				if (a > 0) {
+					t++ ;
+					}
 				}
-				else {
-					System.out.println("BRONCA");
-				}
+			if (o == clase) {
+				System.out.println(t);
+			}
 			}	
 		}
-	
-}
