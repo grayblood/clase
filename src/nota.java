@@ -12,11 +12,12 @@ public class nota {
 			int not = lector.nextInt();
 			if (not >= 0 && not <= 10) {
 				cnot++;
-			} else if (not == 10) {
-				deus++;
+				if (not == 10) {
+					deus++;
+				}
 			} else if (not == -1) {
 				end++;
-				System.out.println(" TOTAL NOTES: "+ cnot +" NOTES10: "+ deus);
+				System.out.println(" TOTAL NOTES: " + cnot + " NOTES10: " + deus);
 			}
 		}
 	}
