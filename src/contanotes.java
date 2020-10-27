@@ -15,25 +15,25 @@ public class contanotes {
 		int md = 0;
 		double suma = 0;
 		while (end == 0) {
-			int num = lector.nextInt();
+			double num = lector.nextDouble();
 			if (num <= 10 && num >= 0) {
 				suma = num + suma;
-				if (num == 10 || num == 9) {
+				if (num >= 9 && num <= 10) {
 					e++;
 					not++;
-				} else if (num == 8 || num == 7) {
+				} else if (num >= 7 && num < 9) {
 					n++;
 					not++;
-				} else if (num == 6) {
+				} else if (num >= 6 && num < 7) {
 					b++;
 					not++;
-				} else if (num == 5) {
+				} else if (num >= 5 && num < 6) {
 					s++;
 					not++;
-				} else if (num == 3 || num == 4) {
+				} else if (num >= 3 && num < 5 ) {
 					i++;
 					not++;
-				} else if (num <= 2 && num >= 0) {
+				} else if (num >= 0 && num < 3) {
 					not++;
 					md++;
 				}
