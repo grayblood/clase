@@ -25,6 +25,7 @@ public class IntroFlags {
 		/**
 		 * Llegeix strings i torna la string +"a" fins que llegeixis "FIN".
 		 */
+		
 
 		boolean flagString = false;
 		while (!flagString) {

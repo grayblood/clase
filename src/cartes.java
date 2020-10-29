@@ -24,4 +24,4 @@ public class cartes {
 			}
 		}
 	}
-}// es +3 despues de las 2 primeras asique toca acumulador yo del futuro, asique a trabajar
+}
