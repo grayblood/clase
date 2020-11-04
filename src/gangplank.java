@@ -24,34 +24,36 @@ public class gangplank {
 
 				// yo flag
 				do {
-					if (monedes > 2) {
+					if (monedes > 3) {
 						monedes = monedes - 3;
-
-					} else if (monedes == 2) {
-						monedes = monedes - 2;
-					} else if (monedes == 1) {
-						monedes = monedes - 1;
-					}
-					if (monedes == 0) {
+					} else if (monedes == 0 || monedes == 1 || monedes == 2 || monedes == 3) {
 						System.out.println("JO");
-						yo = true;
 						gangplank = true;
+						yo = true;
+					} else {
+						gangplank = false;
+						yo = true;
+						monedes = - 2;
 					}
+
 				} while (!yo);
 				// gangplank
 				do {
-					if (monedes >= 3) {
+					if (monedes > 3) {
 						monedes = monedes - 3;
-					} else if (monedes == 2) {
-						monedes = monedes - 2;
-					} else if (monedes == 1) {
-						monedes = monedes - 1;
-					}
-					if (monedes == 0) {
+						if (monedes < 3) {
+							System.out.println("GANGPLANK");
+						}
+					} else if (monedes == 0 || monedes == 1 || monedes == 2 || monedes == 3) {
 						System.out.println("GANGPLANK");
 						gangplank = true;
 						yo = true;
+					} else {
+						gangplank = true;
+						yo = false;
+						monedes = - 2;
 					}
+
 				} while (!gangplank);
 
 			} while (monedes != 0);
