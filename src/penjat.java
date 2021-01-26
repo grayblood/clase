@@ -6,6 +6,7 @@ import java.util.Scanner;
 class penjat {
 	public static void main(String[] args) {
 		int chances = 0;
+		int index = 0;
 		Set<String> prevGuesses = new HashSet<>();
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the word for guesser: ");
@@ -14,7 +15,7 @@ class penjat {
 		char[] wordToGuessChars = wordToGuess.toCharArray(); // creates character array of strings
 		char[] censor = wordToGuess.toCharArray();
 		System.out.println("Your secret word is: "); // prints an array of chars with the same length as string
-		for (int index = 0; index < length; index++) {
+		for (index = 0; index < length; index++) {
 			censor[index] = '_';
 		}
 		while (!String.valueOf(censor).equals(wordToGuess)) {
