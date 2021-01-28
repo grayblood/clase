@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class pesca {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		int veg1= sc.nextInt();
+		for (int h = 0; h < veg1; h++) {
+			
+		int l = sc.nextInt();
 		int f = sc.nextInt();
 		int c = sc.nextInt();
 
@@ -43,7 +47,7 @@ public class pesca {
 			int s = alg[x + 1][y];
 			int se = alg[x + 1][y + 1];
 			int e = alg[x][y + 1];
-
+		}
 		}
 
 	}
