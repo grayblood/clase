@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class menum {
+public class menum2 {
 	static Scanner sc = new Scanner(System.in);
 		static String ju1 = "";
 		static String ju2 = "";
@@ -48,7 +48,13 @@ public class menum {
 
 	private static void opcions(HashMap<String, int[]> judhm) {
 		System.out.println("Escull nom de jugador1");
-			ju1 = 
+		String busca = sc.next();
+		if (judhm.containsKey(busca)) {
+			// si existe continuamos
+			ju1 = busca;
+			System.out.println("Vols añadir jugador2 o vols jugar contra la maquina?( 0 = jugador , 1 = maquina)");
+			int preg1 = sc.nextInt();
+			if (preg1 == 0) {
 				System.out.println("Escull nom de jugador2");
 				String busca2 = sc.next();
 				if (judhm.containsKey(busca2)) {
