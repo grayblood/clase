@@ -7,11 +7,16 @@ import java.util.Scanner;
 public class menum {
 	static Scanner sc = new Scanner(System.in);
 		static String ju1 = "";
+		static int j1w = 0;
+		static int j1l = 0;
 		static String ju2 = "";
+		static int j2w = 0;
+		static int j2l = 0;
 	public static void main(String[] args) {
 		menu();
 		
 	}
+	
 
 	private static void menu() {
 		
@@ -48,46 +53,13 @@ public class menum {
 
 	private static void opcions(HashMap<String, int[]> judhm) {
 		System.out.println("Escull nom de jugador1");
-			ju1 = 
-				System.out.println("Escull nom de jugador2");
-				String busca2 = sc.next();
-				if (judhm.containsKey(busca2)) {
-					ju2 = busca2;
-					jugar(judhm);
-				} else {
-					// si no existe
-					inexistent(judhm);
-
-				}
-			} else if (preg1 == 1) {
-				// crear IA
-				System.out.println("Pues de momento no hay");
-			} else {
-				// else de jugador 2
-				inexistent(judhm);
-			}
-
-		} else {
-			// else de jugador 1
-			inexistent(judhm);
-
-		}
+			ju1 = sc.next();
+		System.out.println("Escull nom de jugador2");
+			ju2 = sc.next();
+			jugar(judhm);
 
 	}
 
-	private static void inexistent(HashMap<String, int[]> judhm) {
-		// funcion para que no pueda salirse facilmente del circuito
-		System.out.println("no existeix el jugador, Vols afegirlo? (0 = no , 1 = si)");
-		int preg = sc.nextInt();
-		if (preg == 0) {
-			opcions(judhm);
-		} else if (preg == 1) {
-			definirjugadors(judhm);
-		} else {
-			System.out.println("volver al inicio");
-			return;
-		}
-	}
 
 	private static void definirjugadors(HashMap<String, int[]> judhm) {
 		System.out.println("defineix al jugador");
@@ -97,16 +69,8 @@ public class menum {
 	}
 
 	private static void veurej(HashMap<String, int[]> judhm) {
-		System.out.println("A qui buscas?");
-		String busca = sc.next();
-		if (judhm.containsKey(busca)) {
-
-			int[] vid = judhm.get(busca);
-			System.out.println(busca + " " + Arrays.toString(vid));
-
-		} else {
-			System.out.println("no existeix");
-		}
+		System.out.println(ju1 +" || "+ j1w +" || " + j1l);
+		System.out.println(ju2 +" || "+ j2w +" || " + j2l);
 
 	}
 
@@ -126,66 +90,72 @@ public class menum {
 
 		while (curs != true) {
 			mostrar(mines, taula);
-			comprobar(mines, taula, curs, jug, judhm, ju1, ju2 );
+			comprobar(mines, taula, curs, jug, judhm );
 
 		}
 	}
 
-	private static void comprobar(int[][] mines, int[][] taula, Boolean curs, Boolean jug, HashMap<String, int[]> judhm, String ju1, String ju2) {
+	private static void comprobar(int[][] mines, int[][] taula, Boolean curs, Boolean jug, HashMap<String, int[]> judhm) {
 		int l = sc.nextInt();
 		int c = sc.nextInt();
 		int cont = 0;
-		if (mines[l][c] == 1) {
+		if (mines[l][c] == 0) {
+			for (int i = 0; i < taula.length; i++) {
+				for (int j = 0; j < taula[0].length; j++) {
+					
+				}
+			}
+			for (int i = l-1; i <= l+1; i++) {
+				for (int j = c-1; j <= c+1; j++) {
+					cont = cont + sortir(i,j,mines);
+				}
+			}taula[l][c] = cont;
+			
+			
+		} else {
 			System.out.println("Eso fue una MINA");
 			canvijug(jug);
 			curs = false;
-			fipart(jug, judhm, ju2, ju2);
-		} else {
-			for (int i = 0; i < taula.length; i++) {
-				for (int j = 0; j < taula[0].length; j++) {
-					if (taula[i][j] == 9) {
-						cont++;
-					}
-				}
-			}
+			fipart(jug, judhm);
+		}
+			
 			if (cont == 0) {
 				curs = false;
-				fipart(jug, judhm, ju1, ju2);
+				fipart(jug, judhm);
 			} else {
 				canvijug(jug);
 
 			}
-		}
 
 	}
+		private static int sortir(int f, int c, int[][] mat) {
+			if(f<0 || c<0 || f>=mat.length || c>=mat[0].length) {
+				return 0;
+			}else {
+				//signifia que estem a dintre de la matriu;
+				return mat[f][c];
+			}
+		}
 
 	private static void canvijug(Boolean jug) {
 		if (jug == false) {
 			jug = true;
-		} else {
+		} else if (jug == true) {
 			jug = false;
 		}
 
 	}
 
-	private static void fipart(Boolean jug, HashMap<String, int[]> judhm, String ju1, String ju2) {
+	private static void fipart(Boolean jug, HashMap<String, int[]> judhm) {
 		if (jug == false) {
 			System.out.println("guanyador " + ju1);
-			int[] vid = judhm.get(ju1);
-			vid[0]++;
-			judhm.put(ju1, vid);
-			int[] vid2 = judhm.get(ju2);
-			vid2[1]++;
-			judhm.put(ju2, vid2);
+			 j1w++;
+			 j2l++;
 			
-		}else {
+		}else if (jug == true) {
 			System.out.println("guanyador " + ju2);
-			int[] vid = judhm.get(ju2);
-			vid[0]++;
-			judhm.put(ju2, vid);
-			int[] vid2 = judhm.get(ju1);
-			vid2[1]++;
-			judhm.put(ju1, vid2);
+			 j2w++;
+			 j1l++;
 		}
 
 		menu();
