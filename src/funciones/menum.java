@@ -2,45 +2,46 @@ package funciones;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class menum {
 	static Scanner sc = new Scanner(System.in);
-		static String ju1 = "";
-		static int j1w = 0;
-		static int j1l = 0;
-		static String ju2 = "";
-		static int j2w = 0;
-		static int j2l = 0;
+	// Cambiar
+	static String ju1 = "Nadie";
+	static int f = 0;
+	static int c = 0;
+	static int mines = 0;
+	static HashMap<String, int[]> judhm = new HashMap<String, int[]>();
+
 	public static void main(String[] args) {
 		menu();
-		
+
 	}
-	
 
 	private static void menu() {
-		
-		
+
 		Boolean end = false;
 
-		HashMap<String, int[]> judhm = new HashMap<String, int[]>();
 		do {
 			end = false;
 			System.out.println("Que vols fer?");
+			System.out.println("1: Ayuda || 2: opciones || 3: jugar || Jugador: "+ ju1 +" || 4: ver jugadores");
 			int a = sc.nextInt();
 			switch (a) {
 			case 1:
-				opcions(judhm);
+				ayuda();
 
 				break;
 			case 2:
-				definirjugadors(judhm);
+				opcions();
+
 				break;
 			case 3:
-				jugar(judhm);
+				jugar();
 				break;
 			case 4:
-				veurej(judhm);
+				veurej();
 				break;
 			case 0:
 				end = true;
@@ -48,120 +49,173 @@ public class menum {
 			}
 
 		} while (end == false);
-		
-	}
-
-	private static void opcions(HashMap<String, int[]> judhm) {
-		System.out.println("Escull nom de jugador1");
-			ju1 = sc.next();
-		System.out.println("Escull nom de jugador2");
-			ju2 = sc.next();
-			jugar(judhm);
 
 	}
 
+	private static void ayuda() {
+		System.out.println("Normas: ");
+		System.out.println("El juego consiste en despejar todas las casillas de una pantalla que no oculten una mina.\r\n" + 
+				"\r\n" + 
+				"Algunas casillas tienen un número, este número indica las minas que son en todas las casillas circundantes.\r\n "
+				+ "Así, si una casilla tiene el número 3, significa que de las ocho casillas que hay alrededor (si no es en una esquina o borde)\r\n"
+				+ " hay 3 con minas y 5 sin minas. Si se descubre una casilla sin número indica que ninguna de las casillas vecinas tiene mina y\r\n"
+				+ " estas se descubren automáticamente.\r\n" + 
+				"\r\n" + 
+				"Si se descubre una casilla con una mina se pierde la partida.");
+		System.out.println();
+		return;
+	}
 
-	private static void definirjugadors(HashMap<String, int[]> judhm) {
+	private static void opcions() {
+		definirjugadors();
+		System.out.println("files del mapa");
+		f = sc.nextInt();
+		System.out.println("columnes del mapa");
+		c = sc.nextInt();
+		int res = f * c;
+		System.out.println("numero de minas");
+		mines = sc.nextInt();
+		if (res - 1 < mines) {
+			do {
+				System.out.println("Demasiadas minas, ponga un numero valido:");
+				mines = sc.nextInt();
+			} while (res - 1 < mines);
+		}
+
+	}
+
+	private static void definirjugadors() {
 		System.out.println("defineix al jugador");
 		String n = sc.next();
 		int[] vid = { 0, 0 };
-		judhm.put(n, vid);
+		judhm.putIfAbsent(n, vid);
+		ju1 = n;
 	}
 
-	private static void veurej(HashMap<String, int[]> judhm) {
-		System.out.println(ju1 +" || "+ j1w +" || " + j1l);
-		System.out.println(ju2 +" || "+ j2w +" || " + j2l);
-
+	private static void veurej() {
+		System.out.println("       Ladderboard");
+		System.out.println(" |N| " + " |V| " + " |D| "  );
+		for (String name : judhm.keySet()) {
+			String key = name.toString();
+			int[] value = judhm.get(name);
+			
+			System.out.println(key +"  " + value[0] +"     " + value[1]);
+		}
 	}
 
-	private static void jugar(HashMap<String, int[]> judhm) {
-		Boolean curs = false;
-		// false == jug1 true == jug2
-		Boolean jug = false;
-		int m = 4;
-			// 0 1 0 0
-			// 0 0 0 1
-			// 0 1 0 0
-			// 1 0 1 0
-		int[][] mines = {{0,1,0,0},{0, 0, 0, 1}, {0, 1, 0, 2}, {1, 0, 1, 0}};
-		int[][] taula = new int[m][m];
+	private static void jugar() {
 
-		rellenar(mines, taula);
+		int[][] minest = new int[f][c];
+		int[][] taula = new int[f][c];
 
-		while (curs != true) {
-			mostrar(mines, taula);
-			comprobar(mines, taula, curs, jug, judhm );
+		rellenar(minest, taula);
+		Boolean curs = true;
+		while (curs == true) {
+			mostrar(minest, taula);
+			int fil = sc.nextInt();
+			int col = sc.nextInt();
+			comprobar(minest, taula, curs, fil, col);
 
 		}
 	}
 
-	private static void comprobar(int[][] mines, int[][] taula, Boolean curs, Boolean jug, HashMap<String, int[]> judhm) {
-		int l = sc.nextInt();
-		int c = sc.nextInt();
-		int cont = 0;
-		if (mines[l][c] == 0) {
-			for (int i = 0; i < taula.length; i++) {
-				for (int j = 0; j < taula[0].length; j++) {
-					
-				}
-			}
-			for (int i = l-1; i <= l+1; i++) {
-				for (int j = c-1; j <= c+1; j++) {
-					cont = cont + sortir(i,j,mines);
-				}
-			}taula[l][c] = cont;
-			
-			
+	private static void comprobar(int[][] minest, int[][] taula, Boolean curs, int fil, int col) {
+		Boolean vd = false;
+
+		if (minest[fil][col] == 0) {
+
+			recursi(fil, col, taula, minest);
+
 		} else {
-			System.out.println("Eso fue una MINA");
-			canvijug(jug);
 			curs = false;
-			fipart(jug, judhm);
+			vd = true;
+			fipart(vd, curs);
 		}
-			
-			if (cont == 0) {
-				curs = false;
-				fipart(jug, judhm);
-			} else {
-				canvijug(jug);
-
-			}
+		minesrestants(vd, taula, minest, curs);
 
 	}
-		private static int sortir(int f, int c, int[][] mat) {
-			if(f<0 || c<0 || f>=mat.length || c>=mat[0].length) {
+
+	private static void minesrestants(Boolean vd, int[][] taula, int[][] minest, Boolean curs) {
+		int contanou = 0;
+		for (int i = 0; i < taula.length; i++) {
+			for (int j = 0; j < taula[0].length; j++) {
+				if (taula[i][j] == 9) {
+					contanou++;
+				}
+			}
+		}
+		if (mines == contanou) {
+			vd = false;
+			curs = false;
+			fipart(vd, curs);
+
+		}
+
+	}
+
+	private static void recursi(int l3, int c3, int[][] taula, int[][] minest) {
+
+		if (l3 < 0 || c3 < 0 || l3 >= minest.length || c3 >= minest[0].length) {
+			return;
+		} else if (taula[l3][c3] != 9) {
+			return;
+		} else {
+			taula[l3][c3] = 0;
+			minest[l3][c3] = 9;
+			// contaminas
+			for (int i = l3 - 1; i <= l3 + 1; i++) {
+				for (int j = c3 - 1; j <= c3 + 1; j++) {
+					taula[l3][c3] = taula[l3][c3] + sortir(i, j, minest, taula);
+
+				}
+			}
+
+			if (taula[l3][c3] == 0) {
+				for (int i = l3 - 1; i <= l3 + 1; i++) {
+					for (int j = c3 - 1; j <= c3 + 1; j++) {
+
+						recursi(i, j, taula, minest);
+
+					}
+				}
+			}
+		}
+	}
+
+	private static int sortir(int f2, int c2, int[][] minest, int[][] taula) {
+
+		if (f2 < 0 || c2 < 0 || f2 >= minest.length || c2 >= minest[0].length) {
+			return 0;
+		} else {
+			if (minest[f2][c2] == 9) {
 				return 0;
-			}else {
-				//signifia que estem a dintre de la matriu;
-				return mat[f][c];
+			} else {
+				return minest[f2][c2];
 			}
-		}
 
-	private static void canvijug(Boolean jug) {
-		if (jug == false) {
-			jug = true;
-		} else if (jug == true) {
-			jug = false;
 		}
-
 	}
 
-	private static void fipart(Boolean jug, HashMap<String, int[]> judhm) {
-		if (jug == false) {
-			System.out.println("guanyador " + ju1);
-			 j1w++;
-			 j2l++;
-			
-		}else if (jug == true) {
-			System.out.println("guanyador " + ju2);
-			 j2w++;
-			 j1l++;
-		}
+	private static void fipart(Boolean vd, Boolean curs) {
+		if (vd == false) {
+			System.out.println("guanyador");
+			// sumar 1 victoria
+			int[] valor = judhm.get(ju1);
+			valor[0]++;
+			judhm.put(ju1, valor);
 
+		} else if (vd == true) {
+			System.out.println("has perdut");
+			// sumar 1 derrota al jugador
+			int[] valor = judhm.get(ju1);
+			valor[1]++;
+			judhm.put(ju1, valor);
+		}
 		menu();
+
 	}
 
-	private static void mostrar(int[][] mines, int[][] taula) {
+	private static void mostrar(int[][] minest, int[][] taula) {
 		System.out.println("taulell");
 		for (int i = 0; i < taula.length; i++) {
 			for (int j = 0; j < taula[0].length; j++) {
@@ -169,22 +223,37 @@ public class menum {
 			}
 			System.out.println();
 		}
+		//
+		//System.out.println();
+		//for (int i = 0; i < taula.length; i++) {
+		//	for (int j = 0; j < taula[0].length; j++) {
+		//		System.out.print(minest[i][j] + " ");
+		//	}
+		//	System.out.println();
+		//	}
 
 	}
 
-	private static void rellenar(int[][] mines, int[][] taula) {
-		// mines temporals
-		// 4x4
+	private static void rellenar(int[][] minest, int[][] taula) {
 
-		// 0 1 0 0
-		// 0 0 0 1
-		// 0 1 0 0
-		// 1 0 1 0
-		
 		for (int i = 0; i < taula.length; i++) {
 			for (int j = 0; j < taula[0].length; j++) {
+				minest[i][j] = 0;
 				taula[i][j] = 9;
 			}
+		}
+		Random r1 = new Random();
+		Random r2 = new Random();
+		int mines2 = mines;
+		for (int i = 0; i < mines2; i++) {
+			int n1 = r1.nextInt(f);
+			int n2 = r2.nextInt(c);
+			if (minest[n1][n2] == 1) {
+				mines2++;
+			} else {
+				minest[n1][n2] = 1;
+			}
+
 		}
 
 	}

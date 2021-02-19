@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"acts"},{"l":"All Packages","u":"allpackages-index.html"},{"l":"IntroFuncions"},{"l":"Patemon"},{"l":"TopDown"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"funciones"}];updateSearchResults();
